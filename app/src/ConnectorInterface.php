@@ -8,5 +8,6 @@ namespace App;
 
 interface ConnectorInterface
 {
-    public function run(array $params = []);
+    public function init(array $params = []);
+    public function run();
 }

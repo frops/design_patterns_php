@@ -6,24 +6,34 @@
 namespace App\FactoryMethod;
 
 use App\ConnectorInterface;
-use App\Exceptions\InvalidInputDataException;
 
 class ClientConnector implements ConnectorInterface
 {
     /**
-     * @param array $params
-     * @throws InvalidInputDataException
+     * @var Dialog
      */
-    public function run(array $params = [])
-    {
-        if ($params['method'] === 'windows') {
-            $dialog = new WindowsDialog();
-        } else if ($params['method'] === 'web') {
-            $dialog = new WebDialog();
-        } else {
-            throw new InvalidInputDataException("invalid method");
-        }
+    private $dialog;
 
-        $dialog->renderWindow();
+    /**
+     */
+    public function run()
+    {
+        $this->dialog->renderWindow();
+    }
+
+    public function init(array $params = [])
+    {
+        $method = isset($params['method']) ? $params['method'] : '';
+
+        switch ($method) {
+            case 'web':
+                $this->dialog = new WebDialog();
+                break;
+            case 'windows':
+                $this->dialog = new WindowsDialog();
+                break;
+            default:
+                throw new \InvalidArgumentException("invalid method: {$method}");
+        }
     }
 }

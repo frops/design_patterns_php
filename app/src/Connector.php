@@ -16,8 +16,8 @@ class Connector
         $className = "App\\{$patternName}\\ClientConnector";
 
         /** @var ConnectorInterface $connector */
-        $connector = new $className();
-        $connector->run($params);
+        $connector = new $className($params);
+        $connector->init($params);
+        $connector->run();
     }
-
 }
